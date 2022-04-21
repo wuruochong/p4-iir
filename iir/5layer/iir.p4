@@ -31,8 +31,14 @@ header p4calc_t {
     int<32> b0;
     int<32> b1;
     int<32> b2;
+    int<32> b3;
+    int<32> b4;
+    int<32> b5;
     int<32> a1;
     int<32> a2;
+    int<32> a3;
+    int<32> a4;
+    int<32> a5;
     int<32> input;
     int<32> res;
 }
@@ -106,12 +112,24 @@ control MyIngress(inout headers hdr,
                   inout standard_metadata_t standard_metadata) {
     register<int<32>>(1) prev_input1;
     register<int<32>>(1) prev_input2;
+    register<int<32>>(1) prev_input3;
+    register<int<32>>(1) prev_input4;
+    register<int<32>>(1) prev_input5;
     register<int<32>>(1) prev_output1;
     register<int<32>>(1) prev_output2;
+    register<int<32>>(1) prev_output3;
+    register<int<32>>(1) prev_output4;
+    register<int<32>>(1) prev_output5;
     int<32> prev_input1_val;
     int<32> prev_input2_val;
+    int<32> prev_input3_val;
+    int<32> prev_input4_val;
+    int<32> prev_input5_val;
     int<32> prev_output1_val;
     int<32> prev_output2_val;
+    int<32> prev_output3_val;
+    int<32> prev_output4_val;
+    int<32> prev_output5_val;
 
     action send_back(int<32> result) {
         bit<48> tmp;
@@ -129,23 +147,43 @@ control MyIngress(inout headers hdr,
 
 
     action filter() {
-        int<32> w1;
-        int<32> w2;
+        int<32> inputTemp;  // Variable to store accumulation of prev inputs
+        int<32> outputTemp; // Variable to store accumulation of prev outputs
         int<32> output;
 
         // Read the previous values
         prev_input1.read(prev_input1_val, 0);
         prev_input2.read(prev_input2_val, 0);
+        prev_input3.read(prev_input3_val, 0);
+        prev_input4.read(prev_input4_val, 0);
+        prev_input5.read(prev_input5_val, 0);
         prev_output1.read(prev_output1_val, 0);
         prev_output2.read(prev_output2_val, 0);
+        prev_output3.read(prev_output3_val, 0);
+        prev_output4.read(prev_output4_val, 0);
+        prev_output5.read(prev_output5_val, 0);
 
-        w2 = (hdr.p4calc.b2 * prev_input2_val) - (hdr.p4calc.a2 * prev_output2_val);
-        w1 = (hdr.p4calc.b1 * prev_input1_val) - (hdr.p4calc.a1 * prev_output1_val) + w2;
-        output = (hdr.p4calc.b0 * hdr.p4calc.input) + w1;
+        inputTemp = (hdr.p4calc.b1 * prev_input1_val) +
+                    (hdr.p4calc.b2 * prev_input2_val) +
+                    (hdr.p4calc.b3 * prev_input3_val) +
+                    (hdr.p4calc.b4 * prev_input4_val) +
+                    (hdr.p4calc.b5 * prev_input5_val);
+        outputTemp = (hdr.p4calc.a1 * prev_output1_val) +
+                     (hdr.p4calc.a2 * prev_output2_val) +
+                     (hdr.p4calc.a3 * prev_output3_val) +
+                     (hdr.p4calc.a4 * prev_output4_val) +
+                     (hdr.p4calc.a5 * prev_output5_val);
+        output = (hdr.p4calc.b0 * hdr.p4calc.input) + inputTemp - outputTemp;
 
         // Store new previous values
+        prev_output5.write(0, prev_output4_val);
+        prev_output4.write(0, prev_output3_val);
+        prev_output3.write(0, prev_output2_val);
         prev_output2.write(0, prev_output1_val);
         prev_output1.write(0, output);
+        prev_input5.write(0, prev_input4_val);
+        prev_input4.write(0, prev_input3_val);
+        prev_input3.write(0, prev_input2_val);
         prev_input2.write(0, prev_input1_val);
         prev_input1.write(0, hdr.p4calc.input);
 

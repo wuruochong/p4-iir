@@ -21,8 +21,14 @@ class P4calc(Packet):
                     SignedIntField("b0", 1),
                     SignedIntField("b1", 1),
                     SignedIntField("b2", 1),
+                    SignedIntField("b3", 1),
+                    SignedIntField("b4", 1),
+                    SignedIntField("b5", 1),
                     SignedIntField("a1", 1),
                     SignedIntField("a2", 1),
+                    SignedIntField("a3", 1),
+                    SignedIntField("a4", 1),
+                    SignedIntField("a5", 1),
                     SignedIntField("input", 0),
                     SignedIntField("result", 0)]
 
@@ -37,8 +43,14 @@ def main():
     b0 = int(input('Input b_0: '))
     b1 = int(input('Input b_1: '))
     b2 = int(input('Input b_2: '))
+    b3 = int(input('Input b_3: '))
+    b4 = int(input('Input b_4: '))
+    b5 = int(input('Input b_5: '))
     a1 = int(input('Input a_1: '))
     a2 = int(input('Input a_2: '))
+    a3 = int(input('Input a_3: '))
+    a4 = int(input('Input a_4: '))
+    a5 = int(input('Input a_5: '))
 
     while True:
         s = input('> ')
@@ -49,8 +61,14 @@ def main():
             pkt = Ether(dst='00:04:00:00:00:00', type=0x1234) / P4calc(b0=b0,
                                               b1=b1,
                                               b2=b2,
+                                              b3=b3,
+                                              b4=b4,
+                                              b5=b5,
                                               a1=a1,
                                               a2=a2,
+                                              a3=a3,
+                                              a4=a4,
+                                              a5=a5,
                                               input=int(s))
             pkt = pkt/' '
 
