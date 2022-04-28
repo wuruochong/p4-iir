@@ -39,19 +39,19 @@ def main():
     b2 = int(input('Input b_2: '))
     a1 = int(input('Input a_1: '))
     a2 = int(input('Input a_2: '))
+    file_name = input('Input file name containing inputs: ')
+    with open(file_name, 'r') as f:
+        lines = f.readlines()
+        inputs = [int(i) for i in lines]
 
-    while True:
-        s = input('> ')
-        if s == "quit":
-            break
-        # print(s)
+    for num in inputs:
         try:
             pkt = Ether(dst='00:04:00:00:00:00', type=0x1234) / P4calc(b0=b0,
                                               b1=b1,
                                               b2=b2,
                                               a1=a1,
                                               a2=a2,
-                                              input=int(s))
+                                              input=num)
             pkt = pkt/' '
 
             pkt.show()
