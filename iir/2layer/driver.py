@@ -44,6 +44,8 @@ def main():
         lines = f.readlines()
         inputs = [int(i) for i in lines]
 
+    outputs = []
+
     for num in inputs:
         try:
             pkt = Ether(dst='00:04:00:00:00:00', type=0x1234) / P4calc(b0=b0,
@@ -54,18 +56,21 @@ def main():
                                               input=num)
             pkt = pkt/' '
 
-            pkt.show()
+            # pkt.show()
             resp = srp1(pkt, iface=iface, timeout=1, verbose=False)
             if resp:
                 p4calc=resp[P4calc]
                 if p4calc:
-                    print(p4calc.result)
+                    # print(p4calc.result)
+                    outputs.append(int(p4calc.result))
                 else:
                     print("cannot find P4calc header in the packet")
             else:
                 print("Didn't receive response")
         except Exception as error:
             print(error)
+
+    print(outputs)
 
 
 if __name__ == '__main__':
