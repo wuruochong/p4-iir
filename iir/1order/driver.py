@@ -54,7 +54,7 @@ def main():
                 p4calc=resp[P4calc]
                 if p4calc:
                     # print(p4calc.result)
-                    outputs.append(int(p4calc.result) / (1 << 8))
+                    outputs.append(int(p4calc.result) / float(1 << 8))
                 else:
                     print("cannot find P4calc header in the packet")
             else:

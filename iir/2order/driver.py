@@ -34,11 +34,11 @@ def main():
     s = ''
     iface = 'eth0'
 
-    b0 = int(input('Input b_0: '))
-    b1 = int(input('Input b_1: '))
-    b2 = int(input('Input b_2: '))
-    a1 = int(input('Input a_1: '))
-    a2 = int(input('Input a_2: '))
+    b0 = int(float(input('Input b_0: ')) * (1 << 8))
+    b1 = int(float(input('Input b_1: ')) * (1 << 8))
+    b2 = int(float(input('Input b_2: ')) * (1 << 8))
+    a1 = int(float(input('Input a_1: ')) * (1 << 8))
+    a2 = int(float(input('Input a_2: ')) * (1 << 8))
     file_name = input('Input file name containing inputs: ')
     with open(file_name, 'r') as f:
         lines = f.readlines()
@@ -53,7 +53,7 @@ def main():
                                               b2=b2,
                                               a1=a1,
                                               a2=a2,
-                                              input=num)
+                                              input=num<<8)
             pkt = pkt/' '
 
             # pkt.show()
@@ -62,7 +62,7 @@ def main():
                 p4calc=resp[P4calc]
                 if p4calc:
                     # print(p4calc.result)
-                    outputs.append(int(p4calc.result))
+                    outputs.append(int(p4calc.result) / float(1<<8))
                 else:
                     print("cannot find P4calc header in the packet")
             else:

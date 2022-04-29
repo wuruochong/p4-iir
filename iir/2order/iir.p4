@@ -139,9 +139,9 @@ control MyIngress(inout headers hdr,
         prev_output1.read(prev_output1_val, 0);
         prev_output2.read(prev_output2_val, 0);
 
-        w2 = (hdr.p4calc.b2 * prev_input2_val) - (hdr.p4calc.a2 * prev_output2_val);
-        w1 = (hdr.p4calc.b1 * prev_input1_val) - (hdr.p4calc.a1 * prev_output1_val) + w2;
-        output = (hdr.p4calc.b0 * hdr.p4calc.input) + w1;
+        w2 = ((hdr.p4calc.b2 * prev_input2_val)>>8) - ((hdr.p4calc.a2 * prev_output2_val)>>8);
+        w1 = ((hdr.p4calc.b1 * prev_input1_val)>>8) - ((hdr.p4calc.a1 * prev_output1_val)>>8) + w2;
+        output = ((hdr.p4calc.b0 * hdr.p4calc.input)>>8) + w1;
 
         // Store new previous values
         prev_output2.write(0, prev_output1_val);
