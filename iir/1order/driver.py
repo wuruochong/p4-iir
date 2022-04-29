@@ -31,7 +31,7 @@ def main():
     iface = 'eth0'
 
     b0 = float(input('Input b_0 (1>b_0>0): '))
-    b0 = b0 * 10
+    b0 = b0 * (1 << 8)
     b0 = int(b0)
     file_name = input('Input csv file name containing inputs: ')
     output_name = input('Input csv file name to store outputs: ')
@@ -45,7 +45,7 @@ def main():
     for num in inputs:
         try:
             pkt = Ether(dst='00:04:00:00:00:00', type=0x1234) / P4calc(b0=b0,
-                                              input=num*10)
+                                              input=num<<8)
             pkt = pkt/' '
 
             # pkt.show()
@@ -54,7 +54,7 @@ def main():
                 p4calc=resp[P4calc]
                 if p4calc:
                     # print(p4calc.result)
-                    outputs.append(int(p4calc.result)/10)
+                    outputs.append(int(p4calc.result) / (1 << 8))
                 else:
                     print("cannot find P4calc header in the packet")
             else:

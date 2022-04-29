@@ -122,13 +122,12 @@ control MyIngress(inout headers hdr,
         int<32> tmp1;
         int<32> tmp2;
         int<32> output;
-        int<64> intDivisor = 0x1999999A;
 
         // Read the previous values
         prev_output1.read(prev_output1_val, 0);
 
-        tmp1 = (int<32>)((intDivisor * (int<64>)(hdr.p4calc.b0*hdr.p4calc.input)) >> 32);
-        tmp2 = (int<32>)((intDivisor * (int<64>)((10-hdr.p4calc.b0)*prev_output1_val)) >> 32);
+        tmp1 = (hdr.p4calc.b0 * hdr.p4calc.input) >> 8;
+        tmp2 = (((1<<8) - hdr.p4calc.b0) * prev_output1_val) >> 8;
         output = tmp1 + tmp2;
 
         // Store new previous values

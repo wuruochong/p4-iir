@@ -31,7 +31,7 @@ def main():
     iface = 'eth0'
 
     b0 = float(input('Input b_0 (1>b_0>0): '))
-    b0 = b0 * 10
+    b0 = b0 << 8
     b0 = int(b0)
 
     while True:
@@ -41,7 +41,7 @@ def main():
         # print(s)
         try:
             pkt = Ether(dst='00:04:00:00:00:00', type=0x1234) / P4calc(b0=b0,
-                                              input=int(s)*10)
+                                              input=int(s)<<8)
             pkt = pkt/' '
 
             pkt.show()
@@ -49,7 +49,7 @@ def main():
             if resp:
                 p4calc=resp[P4calc]
                 if p4calc:
-                    print(p4calc.result/10)
+                    print(p4calc.result>>8)
                 else:
                     print("cannot find P4calc header in the packet")
             else:
