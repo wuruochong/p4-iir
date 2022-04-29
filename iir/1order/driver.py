@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import re
+import csv
 
 from scapy.all import (
     Ether,
@@ -32,10 +33,12 @@ def main():
     b0 = float(input('Input b_0 (1>b_0>0): '))
     b0 = b0 * 10
     b0 = int(b0)
-    file_name = input('Input file name containing inputs: ')
+    file_name = input('Input csv file name containing inputs: ')
+    output_name = input('Input csv file name to store outputs: ')
     with open(file_name, 'r') as f:
-        lines = f.readlines()
-        inputs = [int(i) for i in lines]
+        data = f.read()
+        data = data.split(',')
+        inputs = [int(i) for i in data]
 
     outputs = []
 
@@ -59,7 +62,10 @@ def main():
         except Exception as error:
             print(error)
 
-    print(outputs)
+    # print(outputs)
+    with open(output_name, 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow(outputs)
 
 
 if __name__ == '__main__':
