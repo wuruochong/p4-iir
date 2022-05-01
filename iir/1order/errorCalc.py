@@ -1,11 +1,16 @@
 import csv
 import numpy as np
+import sys
 
 
 def main():
-
-    reference_name = input('Input csv file name containing reference: ')
-    output_name = input('Input csv file name containing outputs: ')
+    num_args = len(sys.argv)
+    if num_args < 3:
+        print(
+            "Usage: python errorCalc.py [reference csv] [output csv]\n")
+        exit()
+    reference_name = sys.argv[1]
+    output_name = sys.argv[2]
     with open(reference_name, 'r') as f:
         reader = csv.reader(f)
         reference_raw_data = list(reader)[0]
@@ -21,7 +26,7 @@ def main():
     difference = np.abs(output_data - reference_data)
     error = difference / output_data
     av_error = np.mean(error)
-    print(av_error)
+    print(f'{av_error * 100}%')
     # for i in difference:
     #     if i > 0:
     #         print(i)
