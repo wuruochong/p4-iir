@@ -25,8 +25,10 @@ def main():
 
     difference = np.abs(output_data - reference_data)
     error = difference / output_data
+    max_error = max(error)
     av_error = np.mean(error)
-    print(f'{av_error * 100}%')
+    print(f'Avg. Percent Error: {av_error * 100}%')
+    print(f'Max Percent Error: {max_error * 100}%')
     # for i in difference:
     #     if i > 0:
     #         print(i)
