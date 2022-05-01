@@ -163,17 +163,17 @@ control MyIngress(inout headers hdr,
         prev_output4.read(prev_output4_val, 0);
         prev_output5.read(prev_output5_val, 0);
 
-        inputTemp = (hdr.p4calc.b1 * prev_input1_val) +
-                    (hdr.p4calc.b2 * prev_input2_val) +
-                    (hdr.p4calc.b3 * prev_input3_val) +
-                    (hdr.p4calc.b4 * prev_input4_val) +
-                    (hdr.p4calc.b5 * prev_input5_val);
-        outputTemp = (hdr.p4calc.a1 * prev_output1_val) +
-                     (hdr.p4calc.a2 * prev_output2_val) +
-                     (hdr.p4calc.a3 * prev_output3_val) +
-                     (hdr.p4calc.a4 * prev_output4_val) +
-                     (hdr.p4calc.a5 * prev_output5_val);
-        output = (hdr.p4calc.b0 * hdr.p4calc.input) + inputTemp - outputTemp;
+        inputTemp = ((hdr.p4calc.b1 * prev_input1_val)>>8) +
+                    ((hdr.p4calc.b2 * prev_input2_val)>>8) +
+                    ((hdr.p4calc.b3 * prev_input3_val)>>8) +
+                    ((hdr.p4calc.b4 * prev_input4_val)>>8) +
+                    ((hdr.p4calc.b5 * prev_input5_val)>>8);
+        outputTemp = ((hdr.p4calc.a1 * prev_output1_val)>>8) +
+                     ((hdr.p4calc.a2 * prev_output2_val)>>8) +
+                     ((hdr.p4calc.a3 * prev_output3_val)>>8) +
+                     ((hdr.p4calc.a4 * prev_output4_val)>>8) +
+                     ((hdr.p4calc.a5 * prev_output5_val)>>8);
+        output = ((hdr.p4calc.b0 * hdr.p4calc.input)>>8) + inputTemp - outputTemp;
 
         // Store new previous values
         prev_output5.write(0, prev_output4_val);
