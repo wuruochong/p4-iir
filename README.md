@@ -18,7 +18,7 @@ This project is verified to work using the 2022-Apr-02 "Release" VM build runnin
 
 Note that some of the python verification programs use packages such as numpy that are not included in these VMs. If you run into an error that a package is missing, simply use pip to install, e.g.:
 ```bash
-pip install numpy
+> pip install numpy
 ```
 
 This should provide the fastest and most reliable way to get this project running on your machine, *especially* if your machine is Windows or Mac based.
@@ -32,20 +32,20 @@ Provides instructions on manually installing the pre-requisite software to your 
 ## Workflow
 Once you have obtained the pre-requisite environment, simply clone this repository onto your machine. Then navigate to a desired implementation e.g.:
 ```bash
-cd iir/1order
+> cd iir/1order
 ```
 ### Running the Implementation
 To run the implementation, simply do:
 ```bash
-make
+> make
 ```
 This will compile the implementation then automatically launch the mininet emulation environment. Notice that your terminal is now the mininet terminal. Now, open a separate terminal for one of the emulated devices on the network, `h1`:
 ```bash
-xterm h1
+mininet> xterm h1
 ```
 A new terminal for `h1` should have popped up. You can now command `h1` to run the driver program in this new terminal:
 ```bash
-python3 driver.py
+> python3 driver.py
 ```
 The program should now prompt you for filter coefficients, input them as you see fit. 
 
@@ -65,14 +65,14 @@ Usage: python verifier.py [input csv] [output csv] [b0]
 ```
 to get the exact order of inputs. Then run `verifier.py` with the correct inputs.
 ```bash
-python3 verifier.py ecg.csv ecg_out_reference.csv 0.5
+> python3 verifier.py ecg.csv ecg_out_reference.csv 0.5
 ```
 This will produce the reference output for `ecg.csv` in `ecg_out_reference.csv` using filter coefficient `b0=0.5`.
 
 ### Comparing output results
 Once the implementation and verifier have both been run for the same input dataset and coefficient set, you can now compare the results. Run
 ```bash
-python3 errorCalc.py ecg_out_reference.csv ecg_out.csv
+> python3 errorCalc.py ecg_out_reference.csv ecg_out.csv
 ```
 and it will calculate the average and maximum percent errors of the switch results vs. the reference result.
 
