@@ -14,7 +14,7 @@ I recommend using a VM image pre-packaged with all of the required P4 software a
 
 https://github.com/jafingerhut/p4-guide/blob/master/bin/README-install-troubleshooting.md
 
-This project is verified to work using the 2022-Apr-02 "Release" VM build running in VirtualBox v6.1.32, although it will likely work with other VM versions in the link above running in comparable virtual machine application.
+This project is verified to work using the 2022-Apr-02 "Release" VM build running in VirtualBox v6.1.32, although it will likely work with other VM versions in the link above running in a comparable virtual machine application.
 
 Note that some of the python verification programs use packages such as numpy that are not included in these VMs. If you run into an error that a package is missing, simply use pip to install, e.g.:
 ```bash
@@ -43,7 +43,7 @@ This will compile the implementation then automatically launch the mininet emula
 ```bash
 xterm h1
 ```
-A new terminal for `h1` should have popped up. You can now command `h1` to run the driver program:
+A new terminal for `h1` should have popped up. You can now command `h1` to run the driver program in this new terminal:
 ```bash
 python3 driver.py
 ```
